@@ -50,6 +50,27 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_files_expires ON files(expires_at);
   CREATE INDEX IF NOT EXISTS idx_pastes_expires ON pastes(expires_at);
+
+  CREATE TABLE IF NOT EXISTS mail_addresses (
+    address TEXT PRIMARY KEY,
+    inbox_token TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    expires_at INTEGER NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS mail_messages (
+    id TEXT PRIMARY KEY,
+    address TEXT NOT NULL,
+    from_address TEXT,
+    subject TEXT,
+    text_body TEXT,
+    received_at INTEGER NOT NULL,
+    FOREIGN KEY (address) REFERENCES mail_addresses(address)
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_mail_addresses_expires ON mail_addresses(expires_at);
+  CREATE INDEX IF NOT EXISTS idx_mail_messages_address ON mail_messages(address);
+  CREATE INDEX IF NOT EXISTS idx_mail_addresses_token ON mail_addresses(inbox_token);
 `);
 
 // ---------- Files ----------
@@ -152,6 +173,74 @@ function rowToPaste(row) {
   };
 }
 
+// ---------- Mail ----------
+
+function insertMailAddress(entry) {
+  db.prepare(`
+    INSERT INTO mail_addresses (address, inbox_token, created_at, expires_at)
+    VALUES (?, ?, ?, ?)
+  `).run(entry.address, entry.inboxToken, entry.createdAt, entry.expiresAt);
+}
+
+function getMailAddress(address) {
+  const row = db.prepare(`SELECT * FROM mail_addresses WHERE address = ?`).get(address);
+  return row ? rowToMailAddress(row) : null;
+}
+
+function addressExists(address) {
+  return Boolean(db.prepare(`SELECT 1 FROM mail_addresses WHERE address = ?`).get(address));
+}
+
+function deleteMailAddress(address) {
+  db.prepare(`DELETE FROM mail_messages WHERE address = ?`).run(address);
+  db.prepare(`DELETE FROM mail_addresses WHERE address = ?`).run(address);
+}
+
+function getExpiredMailAddresses(now) {
+  return db.prepare(`SELECT * FROM mail_addresses WHERE expires_at < ?`).all(now).map(rowToMailAddress);
+}
+
+function rowToMailAddress(row) {
+  return {
+    address: row.address,
+    inboxToken: row.inbox_token,
+    createdAt: row.created_at,
+    expiresAt: row.expires_at,
+  };
+}
+
+function insertMailMessage(entry) {
+  db.prepare(`
+    INSERT INTO mail_messages (id, address, from_address, subject, text_body, received_at)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `).run(entry.id, entry.address, entry.fromAddress, entry.subject, entry.textBody, entry.receivedAt);
+}
+
+function getMailMessagesForAddress(address) {
+  return db
+    .prepare(`SELECT id, from_address, subject, received_at FROM mail_messages WHERE address = ? ORDER BY received_at DESC`)
+    .all(address)
+    .map((row) => ({
+      id: row.id,
+      fromAddress: row.from_address,
+      subject: row.subject,
+      receivedAt: row.received_at,
+    }));
+}
+
+function getMailMessage(id, address) {
+  const row = db.prepare(`SELECT * FROM mail_messages WHERE id = ? AND address = ?`).get(id, address);
+  if (!row) return null;
+  return {
+    id: row.id,
+    address: row.address,
+    fromAddress: row.from_address,
+    subject: row.subject,
+    textBody: row.text_body,
+    receivedAt: row.received_at,
+  };
+}
+
 export {
   insertFile,
   getFile,
@@ -163,4 +252,12 @@ export {
   incrementPasteViewCount,
   deletePaste,
   getExpiredPastes,
+  insertMailAddress,
+  getMailAddress,
+  addressExists,
+  deleteMailAddress,
+  getExpiredMailAddresses,
+  insertMailMessage,
+  getMailMessagesForAddress,
+  getMailMessage,
 };

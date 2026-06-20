@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nulspor Mail - midlertidig e-mailadresse</title>
+  <meta name="description" content="Opret midlertidige e-mailadresser og beskyt din rigtige indbakke mod spam, tracking og datalæk." />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/mail.css" />
+</head>
+<body>
+
+  <header class="container">
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <span class="nav-brand-mark">◌</span>
+        Nulspor
+      </a>
+      <div class="nav-links">
+        <a href="/del">Deling</a>
+        <a href="/paste">Paste</a>
+        <a href="/mail" class="is-active">Mail</a>
+      </div>
+      <a href="https://github.com" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="container mail-page">
+
+    <!-- INTRO / CREATE VIEW -->
+    <section id="view-create">
+      <div class="mail-header">
+        <h1>Nulspor Mail</h1>
+        <p class="paste-sub">
+          Opret en midlertidig e-mailadresse med ét klik. Ingen konto, ingen registrering. Brug den til
+          tilmeldinger, downloads og steder du ikke vil give din rigtige indbakke til.
+        </p>
+      </div>
+
+      <div class="create-card">
+        <div class="create-row">
+          <button type="button" class="btn btn-primary" id="quickCreateBtn">Opret tilfældig adresse</button>
+          <span class="create-divider">eller</span>
+          <button type="button" class="link-button" id="customToggleBtn">vælg din egen adresse</button>
+        </div>
+
+        <div class="custom-row" id="customRow" hidden>
+          <div class="custom-input-group">
+            <input type="text" id="customLocalPart" placeholder="dit-valg" maxlength="32" autocomplete="off" />
+            <span class="custom-domain" id="domainLabel">@nulspor.dk</span>
+          </div>
+          <span class="availability-indicator" id="availabilityIndicator"></span>
+        </div>
+
+        <div class="field" style="margin-top: 1rem; max-width: 220px;">
+          <label class="field-label" for="expirySelect">Udløber efter</label>
+          <select id="expirySelect">
+            <option value="10m">10 minutter</option>
+            <option value="1h" selected>1 time</option>
+            <option value="1d">24 timer</option>
+            <option value="1w">7 dage</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="createBtn" style="margin-top: 1.25rem;" hidden>
+          Opret adresse
+        </button>
+
+        <div class="banner banner-error" id="errorBanner" hidden>
+          <span id="errorText"></span>
+          <button type="button" class="banner-dismiss" id="errorDismiss" aria-label="Luk">×</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- INBOX VIEW -->
+    <section id="view-inbox" hidden>
+      <div class="inbox-card">
+        <div class="inbox-address-row">
+          <div>
+            <span class="section-eyebrow">Din midlertidige adresse</span>
+            <div class="inbox-address" id="inboxAddress"></div>
+          </div>
+          <button type="button" class="btn btn-secondary" id="copyAddressBtn">Kopiér</button>
+        </div>
+
+        <p class="inbox-meta" id="inboxMeta"></p>
+
+        <div class="inbox-toolbar">
+          <button type="button" class="btn btn-secondary" id="refreshBtn">Opdater indbakke</button>
+          <span class="inbox-status" id="inboxStatus"></span>
+        </div>
+
+        <div class="inbox-list" id="inboxList">
+          <p class="inbox-empty" id="inboxEmpty">Ingen mails endnu. De dukker op her, så snart de ankommer.</p>
+        </div>
+      </div>
+
+      <button type="button" class="link-button" id="newAddressBtn" style="margin-top: 1.5rem;">Opret en ny adresse</button>
+    </section>
+
+    <!-- MESSAGE DETAIL VIEW -->
+    <section id="view-message" hidden>
+      <button type="button" class="link-button" id="backToInboxBtn">← Tilbage til indbakke</button>
+
+      <div class="message-card">
+        <p class="message-subject" id="messageSubject"></p>
+        <p class="message-from" id="messageFrom"></p>
+        <p class="message-date" id="messageDate"></p>
+        <pre class="message-body" id="messageBody"></pre>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer container">
+    <div class="footer-inner">
+      <span class="footer-brand">◌ Nulspor</span>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privatlivspolitik">Privatlivspolitik</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Kildekode</a>
+        <a href="mailto:kontakt@nulspor.dk">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/mail.js"></script>
+</body>
+</html>

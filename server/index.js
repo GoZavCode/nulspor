@@ -13,6 +13,8 @@ import { fileURLToPath } from "url";
 import { ensureUploadDir } from "./storage.js";
 import { shareRouter, cleanupExpiredFiles, MAX_FILE_SIZE_MB } from "./routes/share.js";
 import { pasteRouter, cleanupExpiredPastes } from "./routes/paste.js";
+import { mailRouter, cleanupExpiredMail } from "./routes/mail.js";
+import { startSmtpServer } from "./smtp.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -45,10 +47,15 @@ app.use("/api/paste", (req, res, next) => {
   if (req.method === "POST") return createLimiter(req, res, next);
   next();
 });
+app.use("/api/mail/address", (req, res, next) => {
+  if (req.method === "POST") return createLimiter(req, res, next);
+  next();
+});
 
 // --- API-routes ---
 app.use("/api/share", shareRouter);
 app.use("/api/paste", pasteRouter);
+app.use("/api/mail", mailRouter);
 
 // --- Frontend-sider ---
 // Disse staar foer express.static, saa f.eks. "/del" og "/paste" ikke
@@ -66,6 +73,9 @@ app.get("/paste/:id", (req, res) => {
 });
 app.get("/paste", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "paste", "index.html"));
+});
+app.get("/mail", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "mail", "index.html"));
 });
 app.get("/privatlivspolitik", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "privatlivspolitik.html"));
@@ -93,6 +103,7 @@ app.use((err, req, res, next) => {
 function cleanupAll() {
   cleanupExpiredFiles();
   cleanupExpiredPastes();
+  cleanupExpiredMail();
 }
 
 setInterval(cleanupAll, 60 * 60 * 1000);
@@ -103,3 +114,18 @@ cleanupAll();
 app.listen(PORT, () => {
   console.log(`Nulspor kører på http://localhost:${PORT}`);
 });
+
+// --- SMTP-server (Nulspor Mail) ---
+// Lytter normalt paa port 25, hvilket kraever root/cap_net_bind_service
+// paa Linux. Saettes SMTP_ENABLED=false (f.eks. i et udviklings- eller
+// test-miljoe uden root), startes SMTP-serveren slet ikke, men resten
+// af platformen koerer videre uden problemer.
+if (process.env.SMTP_ENABLED !== "false") {
+  try {
+    startSmtpServer();
+  } catch (err) {
+    console.error("Kunne ikke starte SMTP-server (Nulspor Mail vil ikke kunne modtage mail):", err.message);
+  }
+} else {
+  console.log("SMTP-server er deaktiveret (SMTP_ENABLED=false).");
+}

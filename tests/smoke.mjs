@@ -31,7 +31,7 @@ async function waitForServer(retries = 20) {
 async function run() {
   console.log("Starter Nulspor server til test...");
   const server = spawn("node", ["server/index.js"], {
-    env: { ...process.env, PORT: String(PORT), DB_FILE: "./data/test.db" },
+    env: { ...process.env, PORT: String(PORT), DB_FILE: "./data/test.db", SMTP_ENABLED: "false" },
     stdio: ["ignore", "pipe", "pipe"],
   });
 
@@ -44,14 +44,14 @@ async function run() {
     console.log("Server klar. Koerer tests...\n");
 
     // --- Frontend-sider ---
-    for (const path of ["/", "/del", "/paste", "/privatlivspolitik"]) {
+    for (const path of ["/", "/del", "/paste", "/mail", "/privatlivspolitik"]) {
       const res = await fetch(`${BASE}${path}`);
       assert.strictEqual(res.status, 200, `Forventede 200 for ${path}, fik ${res.status}`);
       console.log(`OK  ${path} -> 200`);
     }
 
     // --- Statiske assets ---
-    for (const path of ["/css/style.css", "/js/crypto.js"]) {
+    for (const path of ["/css/style.css", "/css/mail.css", "/js/crypto.js", "/js/mail.js"]) {
       const res = await fetch(`${BASE}${path}`);
       assert.strictEqual(res.status, 200, `Forventede 200 for ${path}, fik ${res.status}`);
       console.log(`OK  ${path} -> 200`);
@@ -106,6 +106,54 @@ async function run() {
     const noFileRes = await fetch(`${BASE}/api/share/upload`, { method: "POST" });
     assert.strictEqual(noFileRes.status, 400, "Upload uden fil gav ikke 400");
     console.log("OK  POST /api/share/upload uden fil -> 400");
+
+    // --- Mail API: opret adresse ---
+    const mailCreateRes = await fetch(`${BASE}/api/mail/address`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ expiry: "1h" }),
+    });
+    assert.strictEqual(mailCreateRes.status, 200, "Mail-adresse-oprettelse fejlede");
+    const mailCreated = await mailCreateRes.json();
+    assert.ok(mailCreated.address, "Mail-oprettelse returnerede ingen adresse");
+    assert.ok(mailCreated.inboxToken, "Mail-oprettelse returnerede intet inbox-token");
+    console.log("OK  POST /api/mail/address -> 200 + adresse + token");
+
+    // --- Mail API: indbakke kraever korrekt token ---
+    const noTokenRes = await fetch(`${BASE}/api/mail/address/${mailCreated.address}/messages`);
+    assert.strictEqual(noTokenRes.status, 403, "Indbakke uden token gav ikke 403");
+    console.log("OK  GET indbakke uden token -> 403");
+
+    const wrongTokenRes = await fetch(`${BASE}/api/mail/address/${mailCreated.address}/messages`, {
+      headers: { "X-Inbox-Token": "forkert-token" },
+    });
+    assert.strictEqual(wrongTokenRes.status, 403, "Indbakke med forkert token gav ikke 403");
+    console.log("OK  GET indbakke med forkert token -> 403");
+
+    const correctTokenRes = await fetch(`${BASE}/api/mail/address/${mailCreated.address}/messages`, {
+      headers: { "X-Inbox-Token": mailCreated.inboxToken },
+    });
+    assert.strictEqual(correctTokenRes.status, 200, "Indbakke med korrekt token fejlede");
+    const inboxData = await correctTokenRes.json();
+    assert.deepStrictEqual(inboxData.messages, [], "Ny postkasse skulle vaere tom");
+    console.log("OK  GET indbakke med korrekt token -> 200, tom indbakke");
+
+    // --- Mail API: brugerdefineret adresse + kollisionstjek ---
+    const customRes = await fetch(`${BASE}/api/mail/address`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ customLocalPart: "ci-test-adresse", expiry: "1h" }),
+    });
+    assert.strictEqual(customRes.status, 200, "Brugerdefineret adresse-oprettelse fejlede");
+    console.log("OK  POST /api/mail/address med customLocalPart -> 200");
+
+    const duplicateRes = await fetch(`${BASE}/api/mail/address`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ customLocalPart: "ci-test-adresse", expiry: "1h" }),
+    });
+    assert.strictEqual(duplicateRes.status, 409, "Dublet-adresse gav ikke 409");
+    console.log("OK  Dublet brugerdefineret adresse -> 409");
 
     console.log("\nAlle smoke-tests bestaaet.");
   } catch (err) {

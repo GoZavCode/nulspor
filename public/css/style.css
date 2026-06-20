@@ -383,6 +383,13 @@ button { font-family: inherit; }
   .tool-grid { grid-template-columns: 1fr; }
 }
 
+.tool-grid-note {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-faint);
+}
+
 /* ===== Footer ===== */
 .footer {
   border-top: 1px solid var(--border);
