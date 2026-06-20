@@ -45,6 +45,19 @@ uden noget tekstindhold overhovedet hvis du kun vil dele filen.
   filupload, brugt udelukkende til misbrugsbekaempelse.
 - **Staerk kryptering.** AES-256-GCM, PBKDF2 til adgangskode-udledning.
 
+## Tests
+
+```bash
+npm test
+```
+
+Koerer et sæt smoke-tests (`tests/smoke.mjs`) der starter serveren og
+verificerer de vigtigste sider og API-endpoints, inklusiv at
+burn-after-reading rent faktisk sletter data efter foerste visning.
+
+GitHub Actions koerer disse tests automatisk paa Node 22.x og 24.x ved
+hver push og pull request, se `.github/workflows/ci.yml`.
+
 ## Koer lokalt
 
 Kraever Node.js 22.5 eller nyere (bruger det indbyggede `node:sqlite`
