@@ -44,14 +44,26 @@ async function run() {
     console.log("Server klar. Koerer tests...\n");
 
     // --- Frontend-sider ---
-    for (const path of ["/", "/del", "/paste", "/mail", "/privatlivspolitik"]) {
+    for (const path of ["/", "/del", "/paste", "/mail", "/metadata", "/privatlivspolitik"]) {
       const res = await fetch(`${BASE}${path}`);
       assert.strictEqual(res.status, 200, `Forventede 200 for ${path}, fik ${res.status}`);
       console.log(`OK  ${path} -> 200`);
     }
 
     // --- Statiske assets ---
-    for (const path of ["/css/style.css", "/css/mail.css", "/js/crypto.js", "/js/mail.js"]) {
+    for (const path of [
+      "/css/style.css",
+      "/css/mail.css",
+      "/css/metadata.css",
+      "/js/crypto.js",
+      "/js/mail.js",
+      "/js/metadata-jpeg.js",
+      "/js/metadata-png.js",
+      "/js/metadata-analyze.js",
+      "/js/metadata-ui.js",
+      "/vendor/exifr.js",
+      "/vendor/pdf-lib.js",
+    ]) {
       const res = await fetch(`${BASE}${path}`);
       assert.strictEqual(res.status, 200, `Forventede 200 for ${path}, fik ${res.status}`);
       console.log(`OK  ${path} -> 200`);

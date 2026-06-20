@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nulspor Metadata - fjern skjult information fra filer</title>
+  <meta name="description" content="Analyser og fjern skjulte metadata fra billeder og dokumenter før du deler dem." />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/metadata.css" />
+</head>
+<body>
+
+  <header class="container">
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <span class="nav-brand-mark">◌</span>
+        Nulspor
+      </a>
+      <div class="nav-links">
+        <a href="/del">Deling</a>
+        <a href="/paste">Paste</a>
+        <a href="/mail">Mail</a>
+        <a href="/metadata" class="is-active">Metadata</a>
+      </div>
+      <a href="https://github.com" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="container metadata-page">
+
+    <!-- UPLOAD VIEW -->
+    <section id="view-upload">
+      <div class="metadata-header">
+        <h1>Nulspor Metadata</h1>
+        <p class="paste-sub">
+          Mange billeder og dokumenter indeholder skjulte oplysninger, du sandsynligvis ikke vidste var der,
+          som GPS-koordinater, enhedsmodel og redigeringshistorik. Analyser en fil, og fjern det du ikke vil
+          dele, alt sammen i din egen browser.
+        </p>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" hidden accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" />
+        <div class="dropzone-inner">
+          <div class="dropzone-icon" aria-hidden="true">🔍</div>
+          <p class="dropzone-title">Træk en fil herhen</p>
+          <p class="dropzone-sub">eller <button type="button" class="link-button" id="browseBtn">vælg fra din computer</button></p>
+          <p class="dropzone-formats">JPG · PNG · PDF</p>
+        </div>
+      </div>
+
+      <p class="fine-print">
+        Filen forlader aldrig din browser. Intet sendes til en server, intet gemmes nogen steder.
+      </p>
+
+      <div class="banner banner-error" id="errorBanner" hidden>
+        <span id="errorText"></span>
+        <button type="button" class="banner-dismiss" id="errorDismiss" aria-label="Luk">×</button>
+      </div>
+    </section>
+
+    <!-- ANALYZING VIEW -->
+    <section id="view-analyzing" hidden>
+      <p class="paste-sub" style="text-align: center;">Analyserer filen lokalt i din browser...</p>
+    </section>
+
+    <!-- RESULT VIEW -->
+    <section id="view-result" hidden>
+
+      <div class="risk-banner" id="riskBanner">
+        <div class="risk-indicator" id="riskIndicator"></div>
+        <div class="risk-text">
+          <p class="risk-title" id="riskTitle"></p>
+          <p class="risk-explanation" id="riskExplanation"></p>
+        </div>
+      </div>
+
+      <div class="result-meta-row">
+        <span class="result-filename" id="resultFilename"></span>
+        <button type="button" class="link-button" id="analyzeAnotherBtn">Analyser en anden fil</button>
+      </div>
+
+      <div class="fields-card" id="fieldsCard">
+        <div class="fields-header">
+          <h2>Fundne oplysninger</h2>
+          <label class="select-all-row" id="selectAllRow" hidden>
+            <input type="checkbox" id="selectAllCheckbox" checked />
+            <span>Fjern alle felter</span>
+          </label>
+        </div>
+        <p class="fields-empty" id="fieldsEmpty" hidden>Vi fandt ingen af de metadata-felter, vi kigger efter, i denne fil.</p>
+        <div class="fields-list" id="fieldsList"></div>
+        <p class="jpeg-note" id="jpegNote" hidden>
+          JPEG-filer understøtter kun fuld fjernelse af alle metadata-felter på én gang, ikke valg af enkelte felter.
+        </p>
+      </div>
+
+      <button type="button" class="btn btn-primary btn-block" id="cleanBtn" style="margin-top: 1.5rem;">
+        Fjern valgte metadata og download
+      </button>
+
+      <div class="banner banner-error" id="cleanErrorBanner" hidden style="margin-top: 1rem;">
+        <span id="cleanErrorText"></span>
+        <button type="button" class="banner-dismiss" id="cleanErrorDismiss" aria-label="Luk">×</button>
+      </div>
+
+      <div class="info-fields-card" id="infoFieldsCard" hidden>
+        <h2>Tekniske oplysninger</h2>
+        <p class="info-fields-sub">
+          Disse felter er en del af filformatets struktur og kan ikke fjernes helt, men er ikke personligt
+          afslørende, eller bliver automatisk neutraliseret under rensning.
+        </p>
+        <div class="fields-list" id="infoFieldsList"></div>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD READY VIEW -->
+    <section id="view-done" hidden>
+      <div class="result-card">
+        <p class="section-eyebrow">Renset</p>
+        <h2 class="result-title">Din fil er klar</h2>
+        <p class="result-note" id="doneNote"></p>
+        <a href="#" class="btn btn-primary btn-block" id="downloadCleanedBtn">Download renset fil</a>
+        <button type="button" class="link-button" id="doneAnotherBtn" style="margin-top: 1.25rem;">Analyser en anden fil</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer container">
+    <div class="footer-inner">
+      <span class="footer-brand">◌ Nulspor</span>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privatlivspolitik">Privatlivspolitik</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Kildekode</a>
+        <a href="mailto:kontakt@nulspor.dk">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/vendor/exifr.js"></script>
+  <script src="/vendor/pdf-lib.js"></script>
+  <script src="/js/metadata-jpeg.js"></script>
+  <script src="/js/metadata-png.js"></script>
+  <script src="/js/metadata-analyze.js"></script>
+  <script src="/js/metadata-ui.js"></script>
+</body>
+</html>

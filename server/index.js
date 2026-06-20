@@ -77,6 +77,9 @@ app.get("/paste", (req, res) => {
 app.get("/mail", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "mail", "index.html"));
 });
+app.get("/metadata", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "metadata", "index.html"));
+});
 app.get("/privatlivspolitik", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "privatlivspolitik.html"));
 });

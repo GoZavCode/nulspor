@@ -35,6 +35,34 @@ oprettelse (gemt lokalt i din browser), ikke kun kendskab til selve
 adressen. Det forhindrer andre i at gaette sig til din indbakke, blot
 ved at gaette en kort, tilfaeldigt genereret adresse.
 
+### Nulspor Metadata
+Analyserer og fjerner skjult metadata fra JPG/PNG-billeder og
+PDF-dokumenter, helt lokalt i browseren. Filen sendes aldrig til en
+server.
+
+For billeder viser vaerktoejet GPS-koordinater, kameramodel,
+redigeringssoftware og tidsstempler. For PDF'er vises titel, forfatter,
+emne, og hvilket program dokumentet er skabt/redigeret i. Hvert fundet
+felt forklares i almindeligt sprog, saa man forstaar hvorfor det kan
+vaere problematisk at dele.
+
+To tekniske begraensninger er vaerd at kende:
+
+- **JPEG-rensning er alt-eller-intet.** I modsaetning til PDF, hvor man
+  kan vaelge at bevare specifikke felter, fjerner JPEG-rensning altid
+  alle EXIF/IPTC-data paa én gang. At kunne bevare ét felt og fjerne et
+  andet i en JPEG ville kraeve at genskrive hele EXIF-segmentet felt
+  for felt, hvilket ikke er bygget i denne version.
+- **Et par PDF-felter kan ikke fjernes helt, kun neutraliseres.**
+  `pdf-lib` (biblioteket der bruges til at laese/skrive PDF-metadata)
+  saetter altid sit eget navn i Producer-feltet og "nu" i
+  redigeringsdatoen, hver gang en fil gemmes. Det er ikke en fejl: det
+  betyder den rensede fils metadata ikke afsloerer hvilket program
+  eller redigeringstidspunkt den oprindelige fil havde, kun at den er
+  blevet behandlet af et renseTool. Disse felter vises i UI'en i en
+  separat "tekniske oplysninger"-sektion, ikke som et privatlivsfelt
+  man kan vaelge at fjerne.
+
 **Saa hvordan virker det helt konkret?**
 
 1. Du skriver tekst i browseren.
@@ -153,6 +181,8 @@ public/
   del/               Nulspor Deling (upload + download-side)
   paste/             Nulspor Paste (opret + visnings-side)
   mail/              Nulspor Mail (opret adresse + indbakke-side)
+  metadata/          Nulspor Metadata (analyser + rens-side)
+  vendor/            Selvhostede tredjeparts-browser-bundles (exifr, pdf-lib) - ingen CDN-afhaengighed
   js/
     crypto.js          Web Crypto-wrapper - AL kryptering sker her, i browseren
     paste-create.js
@@ -160,11 +190,16 @@ public/
     del-upload.js
     del-download.js
     mail.js            Opret adresse, poll indbakke, vis beskeder
+    metadata-jpeg.js    JPEG metadata-fjernelse (byte-niveau, lossless)
+    metadata-png.js     PNG metadata-laesning + fjernelse (chunk-niveau)
+    metadata-analyze.js Orkestrering: detektion, analyse, risikovurdering, rensning
+    metadata-ui.js      UI-logik for Metadata-siden
   css/
     style.css          Faelles design-system for hele platformen
     paste.css
     del.css
     mail.css
+    metadata.css
 ```
 
 ### Tilfoeje et nyt privacy-vaerktoej
@@ -191,6 +226,20 @@ API'en i teorien kan aendre sig i fremtidige Node-versioner, men den
 bruges kun isoleret i `server/db.js`. Hvis du foretraekker et mere
 modent bibliotek, er det den fil du skal udskifte; resten af appen
 roerer aldrig databasen direkte.
+
+### Hvorfor staar exifr og pdf-lib i devDependencies?
+
+Disse to biblioteker bruges udelukkende i browseren (af Nulspor
+Metadata), ikke paa serveren. De er kun installeret via npm for at
+kunne kopiere deres faerdige browser-bundle ind i `public/vendor/` (se
+`package.json` for hvordan), saa platformen kan koere helt uden CDN- 
+eller build-step-afhaengigheder. Hvis du opdaterer en af dem, kopiér
+den nye build manuelt:
+
+```bash
+cp node_modules/exifr/dist/full.umd.js public/vendor/exifr.js
+cp node_modules/pdf-lib/dist/pdf-lib.min.js public/vendor/pdf-lib.js
+```
 
 ## Hosting i produktion
 
