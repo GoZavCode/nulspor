@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paste - Nulspor</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/paste.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/dracula.min.css" />
+</head>
+<body>
+
+  <header class="container">
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <span class="nav-brand-mark">◌</span>
+        Nulspor
+      </a>
+      <div class="nav-links">
+        <a href="/del">Deling</a>
+        <a href="/paste" class="is-active">Paste</a>
+      </div>
+      <a href="https://github.com" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="container paste-page">
+
+    <!-- LOADING -->
+    <div id="view-loading">
+      <p class="paste-sub">Henter krypteret indhold...</p>
+    </div>
+
+    <!-- NO KEY (manglende fragment) -->
+    <div id="view-nokey" hidden>
+      <div class="paste-view-card">
+        <p class="section-eyebrow" style="color: var(--danger);">Manglende nøgle</p>
+        <h2 class="result-title">Linket er ikke komplet</h2>
+        <p class="result-note">
+          Dekrypteringsnøglen skal være en del af linket, efter #. Tjek at du har kopieret hele linket,
+          inklusiv det der står efter #-tegnet.
+        </p>
+      </div>
+    </div>
+
+    <!-- NOT FOUND -->
+    <div id="view-notfound" hidden>
+      <div class="paste-view-card">
+        <p class="section-eyebrow" style="color: var(--danger);">Ikke fundet</p>
+        <h2 class="result-title">Denne paste findes ikke længere</h2>
+        <p class="result-note">
+          Den er enten udløbet, allerede blevet vist (selvdestrueret), eller linket er forkert.
+        </p>
+        <a href="/paste" class="btn btn-secondary" style="margin-top: 1rem;">Opret en ny paste</a>
+      </div>
+    </div>
+
+    <!-- PASSWORD GATE -->
+    <div id="view-password" hidden>
+      <div class="paste-view-card">
+        <p class="section-eyebrow">Adgangskode kræves</p>
+        <h2 class="result-title">Denne paste er beskyttet</h2>
+        <p class="result-note">Indtast adgangskoden for at dekryptere indholdet.</p>
+        <div class="field">
+          <input type="password" id="passwordInput" placeholder="Adgangskode" />
+        </div>
+        <div class="banner banner-error" id="passwordError" hidden style="margin-top: 0.75rem;"></div>
+        <button type="button" class="btn btn-primary" id="unlockBtn" style="margin-top: 1rem;">Dekrypter</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="view-content" hidden>
+      <div class="paste-view-card">
+        <div class="paste-view-meta">
+          <span class="paste-view-badge" id="syntaxBadge"></span>
+          <span class="paste-view-badge is-burn" id="burnBadge" hidden>⚠ Vist og slettet permanent</span>
+        </div>
+        <pre class="paste-content" id="pasteCodeBlock"><code id="pasteCode"></code></pre>
+
+        <div class="file-attachment-box" id="fileAttachmentBox" hidden>
+          <span class="file-attachment-icon">📎</span>
+          <div class="file-attachment-info">
+            <span class="file-attachment-name" id="fileAttachmentName"></span>
+            <span class="file-attachment-size" id="fileAttachmentSize"></span>
+          </div>
+          <a href="#" class="btn btn-secondary" id="fileAttachmentLink">Download fil</a>
+        </div>
+
+        <div class="paste-view-actions">
+          <a href="/paste" class="btn btn-secondary">Opret en ny paste</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer container">
+    <div class="footer-inner">
+      <span class="footer-brand">◌ Nulspor</span>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privatlivspolitik">Privatlivspolitik</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Kildekode</a>
+        <a href="mailto:kontakt@nulspor.dk">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/crypto.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="/js/paste-view.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nulspor Paste - krypteret tekst og kode</title>
+  <meta name="description" content="Del tekst, noter og kode gennem ende-til-ende kryptering direkte i browseren." />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/paste.css" />
+</head>
+<body>
+
+  <header class="container">
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <span class="nav-brand-mark">◌</span>
+        Nulspor
+      </a>
+      <div class="nav-links">
+        <a href="/del">Deling</a>
+        <a href="/paste" class="is-active">Paste</a>
+      </div>
+      <a href="https://github.com" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="container paste-page">
+
+    <div class="paste-header">
+      <h1>Nulspor Paste</h1>
+      <p class="paste-sub">
+        Krypteres lokalt i din browser, før noget sendes til serveren. Vi kan ikke læse dit indhold, og kan
+        det aldrig komme til.
+      </p>
+    </div>
+
+    <div class="paste-editor" id="view-editor">
+      <textarea
+        id="contentInput"
+        class="paste-textarea"
+        placeholder="Skriv eller indsæt din tekst, note eller kode her. Du kan også vedhæfte en fil nedenfor uden at skrive noget tekst."
+        spellcheck="false"
+      ></textarea>
+
+      <div class="paste-options">
+        <div class="field">
+          <label class="field-label" for="syntaxSelect">Syntax</label>
+          <select id="syntaxSelect">
+            <option value="plain">Almindelig tekst</option>
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="bash">Bash / shell</option>
+            <option value="json">JSON</option>
+            <option value="sql">SQL</option>
+            <option value="markdown">Markdown</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="expirySelect">Udløber efter</label>
+          <select id="expirySelect">
+            <option value="1h">1 time</option>
+            <option value="1d" selected>1 dag</option>
+            <option value="1w">1 uge</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="passwordInput">Adgangskode <span class="field-hint">(valgfri, ekstra lag)</span></label>
+          <input type="password" id="passwordInput" placeholder="Ingen adgangskode" autocomplete="new-password" />
+        </div>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="burnCheckbox" />
+        <span>Slet automatisk efter første visning (selvdestruktion)</span>
+      </label>
+
+      <div class="file-attach" id="fileAttach">
+        <input type="file" id="fileInput" hidden />
+        <button type="button" class="file-attach-btn" id="fileAttachBtn">
+          <span class="file-attach-icon">📎</span>
+          <span id="fileAttachLabel">Vedhæft en fil (valgfri, maks 10 MB)</span>
+        </button>
+        <button type="button" class="file-attach-remove" id="fileRemoveBtn" hidden aria-label="Fjern fil">×</button>
+      </div>
+
+      <div class="banner banner-error" id="errorBanner" hidden>
+        <span id="errorText"></span>
+        <button type="button" class="banner-dismiss" id="errorDismiss" aria-label="Luk">×</button>
+      </div>
+
+      <button type="button" class="btn btn-primary btn-block" id="createBtn">Krypter og opret link</button>
+    </div>
+
+    <div class="paste-result" id="view-result" hidden>
+      <div class="result-card">
+        <p class="section-eyebrow">Klar til deling</p>
+        <h2 class="result-title">Din paste er krypteret og gemt</h2>
+        <p class="result-note">
+          Nøglen til at dekryptere indholdet ligger i linket nedenfor, ikke på vores server.
+          Vi kan derfor ikke gendanne linket, hvis du taber det.
+        </p>
+
+        <div class="link-row">
+          <input type="text" class="link-output" id="resultLink" readonly />
+          <button type="button" class="btn btn-secondary" id="copyBtn">Kopiér</button>
+        </div>
+
+        <p class="result-meta" id="resultMeta"></p>
+
+        <button type="button" class="link-button" id="newPasteBtn">Opret en ny paste</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer container">
+    <div class="footer-inner">
+      <span class="footer-brand">◌ Nulspor</span>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privatlivspolitik">Privatlivspolitik</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Kildekode</a>
+        <a href="mailto:kontakt@nulspor.dk">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/crypto.js"></script>
+  <script src="/js/paste-create.js"></script>
+</body>
+</html>

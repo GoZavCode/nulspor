@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download fil - Nulspor Deling</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/del.css" />
+</head>
+<body>
+
+  <header class="container">
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <span class="nav-brand-mark">◌</span>
+        Nulspor
+      </a>
+      <div class="nav-links">
+        <a href="/del" class="is-active">Deling</a>
+        <a href="/paste">Paste</a>
+      </div>
+      <a href="https://github.com" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="container del-page">
+
+    <section id="view-loading">
+      <p class="paste-sub">Henter fil-info...</p>
+    </section>
+
+    <section id="view-notfound" hidden>
+      <div class="download-card" style="text-align:center;">
+        <p class="section-eyebrow" style="color: var(--danger);">Ikke fundet</p>
+        <h2 class="result-title">Filen findes ikke længere</h2>
+        <p class="result-note">Den er enten udløbet, eller linket er forkert.</p>
+        <a href="/del" class="btn btn-secondary" style="margin-top: 1rem;">Upload din egen fil</a>
+      </div>
+    </section>
+
+    <section id="view-file" hidden>
+      <div class="download-card">
+        <p class="section-eyebrow">Klar til download</p>
+        <h2 class="result-title" id="fileName"></h2>
+        <p class="result-note" id="fileMeta"></p>
+
+        <div id="passwordGate" hidden style="margin: 1.25rem 0;">
+          <div class="field">
+            <label class="field-label" for="passwordInput">Denne fil kræver en adgangskode</label>
+            <input type="password" id="passwordInput" placeholder="Indtast adgangskode" />
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="downloadBtn" style="margin-top: 1rem;">Download fil</button>
+      </div>
+    </section>
+
+    <div class="banner banner-error" id="errorBanner" hidden style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); max-width: 90vw;">
+      <span id="errorText"></span>
+      <button type="button" class="banner-dismiss" id="errorDismiss" aria-label="Luk">×</button>
+    </div>
+
+  </main>
+
+  <footer class="footer container">
+    <div class="footer-inner">
+      <span class="footer-brand">◌ Nulspor</span>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privatlivspolitik">Privatlivspolitik</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Kildekode</a>
+        <a href="mailto:kontakt@nulspor.dk">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/del-download.js"></script>
+</body>
+</html>

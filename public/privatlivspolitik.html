@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privatlivspolitik - Nulspor</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <header class="container">
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <span class="nav-brand-mark">◌</span>
+        Nulspor
+      </a>
+      <div class="nav-links">
+        <a href="/del">Deling</a>
+        <a href="/paste">Paste</a>
+      </div>
+      <a href="https://github.com" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="container" style="max-width: 700px; padding: 3rem 0 5rem;">
+    <h1 style="font-size: 2rem; margin-bottom: 1.5rem;">Privatlivspolitik</h1>
+
+    <div style="color: var(--text-dim); display: flex; flex-direction: column; gap: 1.5rem;">
+      <p>
+        Nulspor er bygget til at indsamle så lidt data som muligt. Denne side beskriver præcis, hvad vi
+        registrerer, og hvorfor.
+      </p>
+
+      <div>
+        <h2 style="font-size: 1.15rem; color: var(--text); margin-bottom: 0.5rem; font-family: var(--font-body); font-weight: 700;">Nulspor Paste</h2>
+        <p>
+          Al kryptering sker i din browser, før noget sendes til vores server. Vi gemmer kun krypteret data
+          og kan ikke læse indholdet af dine pastes. Dekrypteringsnøglen ligger i URL-fragmentet (efter #),
+          som aldrig sendes til serveren ved et almindeligt opslag.
+        </p>
+      </div>
+
+      <div>
+        <h2 style="font-size: 1.15rem; color: var(--text); margin-bottom: 0.5rem; font-family: var(--font-body); font-weight: 700;">Nulspor Deling</h2>
+        <p>
+          Når du uploader en fil, registrerer vi din IP-adresse, tidspunktet for uploadet, og filens id.
+          Det er udelukkende til brug for at kunne reagere på misbrug, som spam eller ulovligt indhold. Det
+          vises aldrig offentligt, og er ikke knyttet til nogen konto, fordi der ikke findes nogen konti på
+          Nulspor.
+        </p>
+        <p>
+          Adgangskoder på filer og pastes gemmes som en kryptografisk hash, aldrig i klartekst.
+        </p>
+      </div>
+
+      <div>
+        <h2 style="font-size: 1.15rem; color: var(--text); margin-bottom: 0.5rem; font-family: var(--font-body); font-weight: 700;">Hvad vi ikke gør</h2>
+        <p>
+          Vi bruger ikke cookies til tracking, ingen analytics-værktøjer fra tredjepart, og sælger ikke data
+          videre, fordi vi ikke har nogen data at sælge. Vi viser ingen annoncer.
+        </p>
+      </div>
+
+      <div>
+        <h2 style="font-size: 1.15rem; color: var(--text); margin-bottom: 0.5rem; font-family: var(--font-body); font-weight: 700;">Open source</h2>
+        <p>
+          Hele kildekoden til Nulspor er offentlig. Du behøver ikke tage vores ord for noget af det ovenstående.
+          Du er velkommen til selv at læse koden, eller køre din egen instans.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer container">
+    <div class="footer-inner">
+      <span class="footer-brand">◌ Nulspor</span>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privatlivspolitik">Privatlivspolitik</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Kildekode</a>
+        <a href="mailto:kontakt@nulspor.dk">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

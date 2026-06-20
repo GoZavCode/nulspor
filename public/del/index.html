@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nulspor Deling - del filer anonymt</title>
+  <meta name="description" content="Upload og del filer med fokus på privatliv og sikkerhed. Ingen login, ingen tracking." />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/del.css" />
+</head>
+<body>
+
+  <header class="container">
+    <nav class="nav">
+      <a href="/" class="nav-brand">
+        <span class="nav-brand-mark">◌</span>
+        Nulspor
+      </a>
+      <div class="nav-links">
+        <a href="/del" class="is-active">Deling</a>
+        <a href="/paste">Paste</a>
+      </div>
+      <a href="https://github.com" class="nav-github" target="_blank" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="container del-page">
+
+    <!-- UPLOAD VIEW -->
+    <section id="view-upload">
+      <div class="del-header">
+        <h1>Nulspor Deling</h1>
+        <p class="paste-sub">Upload og del filer med fokus på privatliv. Ingen konto, ingen login.</p>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" hidden />
+        <div class="dropzone-inner">
+          <div class="dropzone-icon" aria-hidden="true">⇪</div>
+          <p class="dropzone-title">Træk en fil herhen</p>
+          <p class="dropzone-sub">eller <button type="button" class="link-button" id="browseBtn">vælg fra din computer</button></p>
+        </div>
+      </div>
+
+      <div class="paste-options" style="grid-template-columns: 1fr 1fr; margin-top: 1.25rem;">
+        <div class="field">
+          <label class="field-label" for="passwordInput">Adgangskode <span class="field-hint">(valgfri)</span></label>
+          <input type="password" id="passwordInput" placeholder="Ingen adgangskode" autocomplete="new-password" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="expirySelect">Slet automatisk efter</label>
+          <select id="expirySelect">
+            <option value="1">1 dag</option>
+            <option value="7" selected>7 dage</option>
+            <option value="30">30 dage</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="fine-print">
+        Ingen konto. Ingen login. Vi logger kun IP-adresse ved upload til misbrugsbekæmpelse.
+        Aldrig vist offentligt. Maks filstørrelse: <span id="maxSizeLabel">2048 MB</span>.
+      </p>
+    </section>
+
+    <!-- UPLOADING VIEW -->
+    <section id="view-progress" hidden>
+      <div class="progress-card">
+        <p class="progress-label" id="progressLabel">Uploader...</p>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-filename" id="progressFilename"></p>
+      </div>
+    </section>
+
+    <!-- RECEIPT VIEW -->
+    <section id="view-receipt" hidden>
+      <div class="result-card">
+        <p class="section-eyebrow">Filen er uploadet</p>
+        <h2 class="result-title" id="receiptFilename"></h2>
+        <p class="result-note" id="receiptMeta"></p>
+
+        <div class="link-row">
+          <input type="text" class="link-output" id="receiptLink" readonly />
+          <button type="button" class="btn btn-secondary" id="copyButton">Kopiér</button>
+        </div>
+
+        <p class="result-meta" id="receiptExpiry"></p>
+
+        <button type="button" class="link-button" id="uploadAnotherBtn">Upload en ny fil</button>
+      </div>
+    </section>
+
+    <div class="banner banner-error" id="errorBanner" hidden style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); max-width: 90vw; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+      <span id="errorText"></span>
+      <button type="button" class="banner-dismiss" id="errorDismiss" aria-label="Luk">×</button>
+    </div>
+
+  </main>
+
+  <footer class="footer container">
+    <div class="footer-inner">
+      <span class="footer-brand">◌ Nulspor</span>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privatlivspolitik">Privatlivspolitik</a>
+        <a href="https://github.com" target="_blank" rel="noopener">Kildekode</a>
+        <a href="mailto:kontakt@nulspor.dk">Kontakt</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/del-upload.js"></script>
+</body>
+</html>

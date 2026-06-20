@@ -1,0 +1,257 @@
+.paste-page {
+  padding: 3rem 0 5rem;
+  max-width: 760px;
+}
+
+.paste-header {
+  margin-bottom: 2rem;
+}
+
+.paste-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+}
+
+.paste-sub {
+  color: var(--text-dim);
+  max-width: 520px;
+}
+
+.paste-textarea {
+  width: 100%;
+  min-height: 320px;
+  background: var(--panel);
+  border: 1px solid var(--border-solid);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.paste-textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.paste-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.field-hint {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.checkbox-row input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+#createBtn { margin-top: 1.5rem; }
+
+.file-attach {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.file-attach-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-raised);
+  border: 1px dashed var(--border-solid);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.file-attach-btn:hover {
+  border-color: var(--accent-dim);
+  color: var(--text);
+}
+
+.file-attach-btn.has-file {
+  border-style: solid;
+  border-color: var(--accent-dim);
+  color: var(--accent-bright);
+}
+
+.file-attach-icon { font-size: 1rem; }
+
+.file-attach-remove {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.3rem;
+}
+.file-attach-remove:hover { color: var(--danger); }
+
+@media (max-width: 700px) {
+  .paste-options { grid-template-columns: 1fr; }
+}
+
+/* ===== Result view ===== */
+.result-card {
+  background: var(--panel);
+  border: 1px solid var(--border-solid);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+.result-title {
+  font-size: 1.4rem;
+  margin: 0.4rem 0 0.75rem;
+}
+
+.result-note {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.link-row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.link-output {
+  flex: 1;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-solid);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.9rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.result-meta {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--accent-bright);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-dim);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  margin-top: 1.5rem;
+  display: inline-block;
+}
+
+@media (max-width: 560px) {
+  .link-row { flex-direction: column; }
+}
+
+/* ===== View page (viser dekrypteret indhold) ===== */
+.paste-view-card {
+  background: var(--panel);
+  border: 1px solid var(--border-solid);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+
+.paste-view-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.paste-view-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-solid);
+  border-radius: 100px;
+  padding: 0.3rem 0.7rem;
+}
+
+.paste-view-badge.is-burn {
+  color: #e3a89c;
+  border-color: var(--danger-dim);
+}
+
+pre.paste-content {
+  margin: 0;
+  padding: 1.25rem;
+  background: var(--bg-raised);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.paste-view-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.file-attachment-box {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+  padding: 1rem 1.1rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-solid);
+  border-radius: var(--radius-sm);
+}
+
+.file-attachment-icon { font-size: 1.3rem; }
+
+.file-attachment-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.file-attachment-name {
+  font-size: 0.92rem;
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-attachment-size {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}

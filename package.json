@@ -1,0 +1,23 @@
+{
+  "name": "nulspor",
+  "version": "1.0.0",
+  "description": "Dansk open source privacy-platform med vaerktoejer til sikker deling af filer og tekst",
+  "main": "server/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node tests/smoke.mjs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^2.0.0",
+    "nanoid": "^5.0.7",
+    "express-rate-limit": "^7.4.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

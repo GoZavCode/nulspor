@@ -1,0 +1,108 @@
+.del-page {
+  padding: 3rem 0 5rem;
+  max-width: 640px;
+}
+
+.del-header {
+  margin-bottom: 2rem;
+}
+
+.del-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+}
+
+.dropzone {
+  border: 2px dashed var(--border-solid);
+  border-radius: var(--radius-lg);
+  padding: 3.5rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  background: var(--panel);
+}
+
+.dropzone:hover,
+.dropzone.is-dragover {
+  border-color: var(--accent);
+  background: rgba(79, 156, 140, 0.05);
+}
+
+.dropzone-icon {
+  font-size: 2.4rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.dropzone-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0.5rem 0 0.25rem;
+  color: var(--text);
+}
+
+.dropzone-sub {
+  color: var(--text-dim);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--accent-bright);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-dim);
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+}
+
+.fine-print {
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.progress-card { text-align: center; padding: 3rem 0; }
+
+.progress-label {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--panel);
+  border-radius: 100px;
+  overflow: hidden;
+  border: 1px solid var(--border-solid);
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.15s ease-out;
+}
+
+.progress-filename {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* ===== Download page ===== */
+.download-card {
+  background: var(--panel);
+  border: 1px solid var(--border-solid);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}

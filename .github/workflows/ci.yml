@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+
+    steps:
+      - name: Tjek koden ud
+        uses: actions/checkout@v4
+
+      - name: Saet Node.js ${{ matrix.node-version }} op
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Installer dependencies
+        run: npm ci
+
+      - name: Koer smoke-tests
+        run: npm test
+
+  lint-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tjek koden ud
+        uses: actions/checkout@v4
+
+      - name: Saet Node.js op
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Tjek at alle JS-filer er syntaktisk gyldige
+        run: |
+          for file in $(find server public/js tests -name "*.js" -o -name "*.mjs"); do
+            node --check "$file" || exit 1
+          done
+          echo "Alle JS-filer er syntaktisk gyldige."
