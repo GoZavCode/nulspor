@@ -2,7 +2,7 @@
 
 En dansk open source privacy-platform. Nulspor forklarer hvorfor digitalt
 privatliv er vigtigt, og tilbyder praktiske vaerktoejer til at beskytte
-det: sikker fildeling og ende-til-ende krypteret tekstdeling.
+det.
 
 ## Vaerktoejer
 
@@ -11,8 +11,7 @@ Upload og del filer uden konto eller login. Valgfri adgangskode,
 automatisk udloeb (1/7/30 dage), rate limiting mod misbrug.
 
 ### Nulspor Paste
-Del tekst, noter og kode med ende-til-ende kryptering, inspireret af
-[PrivateBin](https://privatebin.info). Serveren ser og gemmer kun
+Del tekst, noter og kode med ende-til-ende kryptering. Serveren ser og gemmer kun
 krypteret data, aldrig dit indhold eller din dekrypteringsnoegle.
 
 ### Nulspor Mail
